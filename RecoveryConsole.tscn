@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+anti_aliasing = false
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends 'res://Console.gd'
+
+func _ready():
+	output('Recovery Mode\\n\\n')
+	createPrompt()
+
+func command_default():
+	output('ERROR: Command not found\\nCommands: status, memchk, foobar\\n')
+		
+func command_status():
+	output('Hull:    OK\\n')
+	output('Motor:   WARN (1)\\n')
+	output('GANN:    OK\\n')
+	output('Memory:  ERROR (17)\\n')"
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_right = 960.0
+margin_bottom = 528.0
+mouse_filter = 2
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/current_line_color = Color( 0.0470588, 0.0470588, 0.0470588, 1 )
+highlight_current_line = true
+context_menu_enabled = false
+wrap_enabled = true
+caret_block_mode = true
+caret_blink = true
+script = SubResource( 2 )
+[connection signal="text_changed" from="TextEdit" to="." method="inputChanged"]

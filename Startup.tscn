@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
+
+[node name="Startup" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 960.0
+margin_bottom = 528.0
+color = Color( 0.145098, 0.309804, 0.176471, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 120.378
+margin_top = 103.361
+margin_right = 232.378
+margin_bottom = 119.361
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.423529, 0.635294, 0.435294, 1 )
+text = "Reading"
