@@ -20,7 +20,10 @@ func command_status():
 	output('Hull:    OK\\n')
 	output('Motor:   WARN (1)\\n')
 	output('GANN:    OK\\n')
-	output('Memory:  ERROR (17)\\n')"
+	output('Memory:  ERROR (17)\\n')
+	
+func command_memchk():
+	output('blah blah blah')"
 
 [node name="Node2D" type="Node2D"]
 

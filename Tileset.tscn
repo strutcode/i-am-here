@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tileset.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="Tileset" type="Node2D"]
+
+[node name="tileset" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="tileset"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="tileset/StaticBody2D"]
+position = Vector2( 8, 8 )
+shape = SubResource( 1 )
