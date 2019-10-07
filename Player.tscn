@@ -17,6 +17,7 @@ export var drag = 0.7
 var airTime = 0
 var shootCooldown = 0
 onready var floorAngle = deg2rad(45)
+onready var gameState = $\"/root/GameState\"
 
 var velocity = Vector2()
 var bullet = preload('res://Bullet.tscn')
@@ -49,7 +50,7 @@ func _physics_process(delta):
 	if inputJump and airTime < 0.1:
 		airTime = 10
 		velocity.y = -jump
-		playSfx(jumpSound, -25)
+		gameState.playSfx(jumpSound, -25)
 	
 	velocity += move * delta
 	velocity.x = clamp(velocity.x, -speed, speed)
@@ -76,18 +77,9 @@ func _physics_process(delta):
 		
 		$AnimationPlayer.play('shoot', -1, 2.0)
 		
-		playSfx(bulletSound, -10)
+		gameState.playSfx(bulletSound, -10)
 		
-		shootCooldown = 0.3
-		
-func playSfx(audioStream, volume = 0):
-	var sfx = AudioStreamPlayer.new()
-	sfx.stream = audioStream
-	sfx.volume_db = volume
-	get_parent().add_child(sfx)
-	sfx.play()
-	yield(sfx, 'finished')
-	sfx.queue_free()"
+		shootCooldown = 0.3"
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {

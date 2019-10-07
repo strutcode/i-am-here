@@ -15,4 +15,8 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 collision_mask = 15
+gravity = 700
+accel = 900
+speed = 150
 jump = 250
+drag = 0.7

@@ -12,10 +12,19 @@ func _physics_process(delta):
 		print(collision)
 
 func hitBody(body: PhysicsBody2D):
+	print('hit body')
 	if body == null:
 		queue_free()
 	elif body.has_method('bulletHit'):
 		body.call('bulletHit', self)
+		queue_free()
+
+func hitArea(area):
+	print('hit area')
+	if area == null:
+		queue_free()
+	elif area.has_method('bulletHit'):
+		area.call('bulletHit', self)
 		queue_free()
 "
 
@@ -32,13 +41,14 @@ margin_left = -2.0
 margin_top = -2.0
 margin_right = 2.0
 margin_bottom = 2.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 margin_left = -1.0
 margin_top = -1.0
 margin_right = 1.0
 margin_bottom = 1.0
+color = Color( 0.52549, 0.729412, 0.537255, 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2

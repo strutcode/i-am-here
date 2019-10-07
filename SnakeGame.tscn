@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://bgm1.wav" type="AudioStream" id=2]
 
 [sub_resource type="GDScript" id=5]
 script/source = "extends Node2D
@@ -33,6 +34,7 @@ anti_aliasing = false
 script/source = "extends Area2D
 
 onready var gameState = $\"/root/GameState\"
+var pointSound = preload(\"res://pickup.wav\")
 
 var direction = Vector2(1, 0)
 var length = 0
@@ -67,6 +69,7 @@ func onCollide(area):
 	if area.is_in_group('point'):
 		length += 1
 		progress.value += 1
+		gameState.playSfx(pointSound, -10)
 		area.queue_free()
 		
 		if progress.value == progress.max_value:
@@ -200,6 +203,11 @@ shape = SubResource( 9 )
 position = Vector2( 944, 256 )
 rotation = 1.5708
 shape = SubResource( 9 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -25.0
+autoplay = true
 [connection signal="area_entered" from="Snake" to="Snake" method="onCollide"]
 [connection signal="timeout" from="Snake/Timer" to="Snake" method="onTick"]
 [connection signal="timeout" from="SnakeSegment/Timer" to="SnakeSegment" method="onTick"]
