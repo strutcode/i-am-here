@@ -1,0 +1,207 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Node2D
+
+func onSpawnTimer():
+	var newpoint = $Point.duplicate()
+	newpoint.position = Vector2(round(rand_range(1, 29)) * 32 + 16, round(rand_range(1, 13)) * 32 + 16)
+	get_parent().add_child(newpoint)
+"
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.145098, 0.309804, 0.176471, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.2, 0.337255, 0.207843, 1 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.52549, 0.729412, 0.537255, 1 )
+anti_aliasing = false
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Area2D
+
+onready var gameState = $\"/root/GameState\"
+
+var direction = Vector2(1, 0)
+var length = 0
+var segments = []
+onready var progress = $'../ProgressBar'
+
+func _process(delta):
+	if Input.is_action_pressed('ui_up'):
+		direction = Vector2(0, -1)
+	elif Input.is_action_pressed('ui_down'):
+		direction = Vector2(0, 1)
+	elif Input.is_action_pressed('ui_left'):
+		direction = Vector2(-1, 0)
+	elif Input.is_action_pressed('ui_right'):
+		direction = Vector2(1, 0)
+
+func onTick():
+	var oldpos = position
+	position += direction * 32
+		
+	var newseg = $'../SnakeSegment'.duplicate()
+	newseg.position = oldpos
+	get_parent().add_child(newseg)
+	segments.append(newseg)
+	
+	while segments.size() > length:
+		var last = segments.pop_front()
+		if last: last.queue_free()
+
+
+func onCollide(area):
+	if area.is_in_group('point'):
+		length += 1
+		progress.value += 1
+		area.queue_free()
+		
+		if progress.value == progress.max_value:
+			gameState.miniGameResult = true
+			gameState.goToConsole()
+	else:
+		gameState.miniGameResult = false
+		gameState.goToConsole()
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 480, 16 )
+
+[node name="SnakeGame" type="Node2D"]
+script = SubResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 960.0
+margin_bottom = 530.0
+color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 928.0
+margin_bottom = 448.0
+color = Color( 0.145098, 0.309804, 0.176471, 1 )
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = 336.0
+margin_top = 472.0
+margin_right = 912.0
+margin_bottom = 504.0
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+max_value = 40.0
+step = 1.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="."]
+margin_left = 34.4979
+margin_top = 480.941
+margin_right = 306.498
+margin_bottom = 496.941
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
+text = "Acquiring Network"
+
+[node name="Snake" type="Area2D" parent="."]
+position = Vector2( 48, 48 )
+script = SubResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="Snake"]
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+color = Color( 0.52549, 0.729412, 0.537255, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Snake"]
+shape = SubResource( 6 )
+
+[node name="Timer" type="Timer" parent="Snake"]
+wait_time = 0.2
+autostart = true
+
+[node name="SnakeSegment" type="Area2D" parent="."]
+position = Vector2( 0, -48 )
+
+[node name="ColorRect" type="ColorRect" parent="SnakeSegment"]
+margin_left = -15.0
+margin_top = -15.0
+margin_right = 15.0
+margin_bottom = 15.0
+color = Color( 0.52549, 0.729412, 0.537255, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SnakeSegment"]
+shape = SubResource( 7 )
+
+[node name="Timer" type="Timer" parent="SnakeSegment"]
+wait_time = 0.2
+autostart = true
+
+[node name="Point" type="Area2D" parent="." groups=[
+"point",
+]]
+position = Vector2( 48, -48 )
+
+[node name="ColorRect" type="ColorRect" parent="Point"]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 8.0
+margin_bottom = 8.0
+color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Point"]
+shape = SubResource( 8 )
+
+[node name="Timer" type="Timer" parent="Point"]
+wait_time = 0.2
+autostart = true
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 480, 16 )
+shape = SubResource( 9 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 480, 464 )
+shape = SubResource( 9 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 16, 240 )
+rotation = 1.5708
+shape = SubResource( 9 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 944, 256 )
+rotation = 1.5708
+shape = SubResource( 9 )
+[connection signal="area_entered" from="Snake" to="Snake" method="onCollide"]
+[connection signal="timeout" from="Snake/Timer" to="Snake" method="onTick"]
+[connection signal="timeout" from="SnakeSegment/Timer" to="SnakeSegment" method="onTick"]
+[connection signal="timeout" from="Point/Timer" to="Point" method="onTick"]
+[connection signal="timeout" from="Timer" to="." method="onSpawnTimer"]

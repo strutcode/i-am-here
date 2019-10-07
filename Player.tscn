@@ -142,7 +142,6 @@ script = SubResource( 1 )
 position = Vector2( -0.1973, -8.85899 )
 frames = SubResource( 2 )
 animation = "walk"
-frame = 1
 playing = true
 centered = false
 offset = Vector2( -6, 0 )

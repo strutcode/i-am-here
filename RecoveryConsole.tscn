@@ -9,21 +9,90 @@ anti_aliasing = false
 [sub_resource type="GDScript" id=2]
 script/source = "extends 'res://Console.gd'
 
+onready var gameState = $\"/root/GameState\"
+var nextScene = preload('res://MainConsole.tscn')
+
+var memchkN = 0
+var words = ['hello']
+var scrambled = []
+var canBoot = false
+
 func _ready():
-	output('Recovery Mode\\n\\n')
+	for word in words:
+		scrambled.append(scramble(word))
+		
+	output('+ Recovery Mode +\\n')
 	createPrompt()
+	
+func scramble(string):
+	var output = string
+	var x = 0
+	var l = string.length()
+	
+	while output == string:
+		for i in (randi() % 5) + 5:
+			x = randi() % l
+			output = output.substr(x, l-x) + output.substr(0, x)
+		
+	return output
 
 func command_default():
-	output('ERROR: Command not found\\nCommands: status, memchk, foobar\\n')
+	output('ERROR: Command not found\\nCommands: status, memchk, boot')
 		
-func command_status():
-	output('Hull:    OK\\n')
-	output('Motor:   WARN (1)\\n')
-	output('GANN:    OK\\n')
-	output('Memory:  ERROR (17)\\n')
+func command_status(param):
+	output('v118.10.2122')
+	output('No network')
+	output('No adaptive hull present on DBUS\\n')
 	
-func command_memchk():
-	output('blah blah blah')"
+	if not canBoot:
+		output('ERROR: Long memory fragmentation detected!')
+	else:
+		output('System check passed! Run \"boot\" to continue.')
+	
+func command_memchk(param):
+	if param == 'manual':
+		command_fix(null)
+	else:
+		output('- Checking memory -')
+		if canBoot:
+			output('.```.`.`.`.````.````.``````.````````.````.`````.``.```.```.``.```...```.')
+			output('.```.`.`.`.````.```.````.````.``.```````.```````.``````.`````.``.`````.`````.``.```.\\n')
+			output('Memory check complete.')
+		else:
+			output('.```.`.`.`.````````.``````.````````````````````.`````````````````.`````````````````````````````````````E\\n')
+			output('FATAL: Automatic memory correction failed')
+			output('       Run \"memchk manual\" to fix errors.')
+
+func command_fix(param):
+	if param:
+		if param == words[memchkN]:
+			output('SUCCESS: Memory location recovered.\\n')
+			memchkN += 1
+			
+			if memchkN == words.size():
+				canBoot = true
+				command_memchk(null)
+				return
+		else:
+			output('ERROR: Checksum failed, memory location not recovered.\\n')
+			
+	output('Corrupted memory location found.')
+	output('Enter corrected data for block:')
+	output('   ' + scrambled[memchkN])
+	output('\\nUsage: fix <word>')
+	
+func command_boot(param):
+	if canBoot:
+		output('Pull upstream               [ OK ]')
+		output('Initialize communication    [ OK ]')
+		output('Prepare memory map          [ OK ]')
+		output('Start DBUS poller           [ OK ]')
+		output('Feed tomogachi              [ OK ]')
+		output('Power up```````````')
+		yield(self, 'output_done')
+		get_tree().change_scene_to(nextScene)
+	else:
+		output('FATAL: Manual override failed, memory corruption')"
 
 [node name="Node2D" type="Node2D"]
 

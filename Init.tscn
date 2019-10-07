@@ -175,8 +175,7 @@ tracks/11/keys = {
 script = SubResource( 1 )
 
 [node name="Self Test" type="ColorRect" parent="."]
-margin_left = -0.630249
-margin_right = 959.37
+margin_right = 960.0
 margin_bottom = 528.0
 color = Color( 0, 0, 0, 1 )
 

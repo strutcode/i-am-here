@@ -1,5 +1,7 @@
 extends TextEdit
 
+signal output_done
+
 var outputDelta = 0
 var outputDelay: float = 0.1 / 3
 var outputBuffer = ''
@@ -27,8 +29,12 @@ func _input(event):
 				createPrompt()
 				get_tree().set_input_as_handled()
 				
-func output(string):
+func output(string, newline = true):
+	allowInput = false
+		
 	outputBuffer += string
+	if newline:
+		outputBuffer += '\n'
 	
 func _process(delta):
 	if outputBuffer.length() == 0:
@@ -38,20 +44,31 @@ func _process(delta):
 		
 	outputDelta += delta
 	
-	while outputDelta > outputDelay and outputBuffer.length() > 0:
-		text += outputBuffer.substr(0, 1)
+	while outputDelta > outputDelay:
+		var next = outputBuffer.substr(0, 1)
+		
+		if next != '`':
+			text += next
+			
 		outputBuffer = outputBuffer.substr(1, outputBuffer.length())
+		
 		cursor_set_line(get_line_count(), true, false)
 		cursor_set_column(get_line(get_line_count() - 1).length())
+		
 		outputDelta -= outputDelay
+		
+		if outputBuffer.length() == 0:
+			emit_signal('output_done')
+			break
 	
 func createPrompt():
-	output('\n> ')
+	output('\n> ', false)
 	
 func handleInput(string: String):
-	var methodName = 'command_' + string.to_lower().strip_edges()
+	var parts = string.to_lower().strip_edges().split(' ')
+	var methodName = 'command_' + parts[0]
 	
 	if self.has_method(methodName):
-		self.call(methodName)
+		self.call(methodName, parts[1] if parts.size() > 1 else null)
 	elif self.has_method('command_default'):
 		self.call('command_default')

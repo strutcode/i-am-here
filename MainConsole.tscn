@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.145098, 0.309804, 0.176471, 1 )
+anti_aliasing = false
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends 'res://Console.gd'
+
+func _ready():
+	createPrompt()
+
+func command_default():
+	output('ERROR: Command not found\\nCommands: connect')"
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_right = 960.0
+margin_bottom = 528.0
+mouse_filter = 2
+custom_styles/read_only = SubResource( 1 )
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
+custom_colors/current_line_color = Color( 0.2, 0.337255, 0.207843, 1 )
+custom_colors/completion_selected_color = Color( 0, 0, 0, 1 )
+context_menu_enabled = false
+wrap_enabled = true
+script = SubResource( 2 )
+[connection signal="text_changed" from="TextEdit" to="." method="inputChanged"]
