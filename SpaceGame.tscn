@@ -45,7 +45,7 @@ anti_aliasing = false
 [sub_resource type="GDScript" id=3]
 script/source = "extends KinematicBody2D
 
-var accel = 60
+var accel = 30
 var speed = 80
 onready var gameState = $\"/root/GameState\"
 

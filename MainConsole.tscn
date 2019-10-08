@@ -12,30 +12,69 @@ script/source = "extends 'res://Console.gd'
 onready var gameState = $\"/root/GameState\"
 var spaceGame = preload('res://SpaceGame.tscn')
 var snakeGame = preload('res://SnakeGame.tscn')
+var platformerGame = preload('res://Platformer.tscn')
 
 func _ready():
 	if gameState.miniGame == 'snake':
 		if gameState.miniGameResult:
-			output('You beat snake, awesome!')
+			output('Connection established.')
+			output('Waiting for first packet`.`.`.``````````````\\n')
+			output('Unknown protocol detected. Run \"trace\" to analyze.')
+			gameState.snakeDone = true
 		else:
-			output('wow much fail, so disappoint')
+			output('Failed to acquire network signal. Connection failed.')
 			
 	elif gameState.miniGame == 'space':
 		if gameState.miniGameResult:
-			output('You beat space, awesome!')
+			output('Protocol trace complete.\\n')
+			output('Analyzing results')
+			output('..````.``..`````..`.`.``...````````.``....`.```````..`..```..\\n')
+			output('Protocol fully analyzed, connecting to adaptive hull`````.`````.`````.')
+			output('Connection established.')
+			gameState.spaceDone = true
 		else:
-			output('wow much fail, so disappoint')
+			output('Connection terminated, protocol analyzation failed.')
 			
 	createPrompt()
 
 func command_default():
-	output('ERROR: Command not found\\nCommands: connect, trace')
+	output('ERROR: Command not found\\nCommands: status, connect, trace, init')
+	
+func command_status(param):
+	output('v118.10.2122')
+	output('Memory 100%')
+	output('GANN loss rate 0.01%')
+	
+	if gameState.snakeDone:
+		output('Network located at quantum entanglement a32-eff-819')
+	else:
+		output('No network')
+		
+	if gameState.spaceDone:
+		output('Adaptive hull connected on DBUS::3')
+	else:  
+		output('No adaptive hull present on DBUS')
+		
+	if gameState.snakeDone and gameState.spaceDone:
+		output('\\n- All systems nominal. Ready to engage adaptive hull. -')
+	else:
+		output('\\nSystem OK')
 	
 func command_connect(param):
+	output('Attempting to reconnect to network```.```.```.')
+	output('Failed to acquire signal automatically, please adjust parameters manually.')
+	output('````````````````````````````````````````````````````')
+
+	yield(self, 'output_done')
+	
 	gameState.miniGame = 'snake'
 	get_tree().change_scene_to(snakeGame)
 
 func command_trace(param):
+	if not gameState.snakeDone:
+		output('ERROR: No network connected.')
+		return
+		
 	output('Initiating trace of protocol```.```.```.\\n')
 	output('WARNING: System defenses activated.')
 	output('         Trace will take some time...')
@@ -44,7 +83,29 @@ func command_trace(param):
 	yield(self, 'output_done')
 	
 	gameState.miniGame = 'space'
-	get_tree().change_scene_to(spaceGame)"
+	get_tree().change_scene_to(spaceGame)
+	
+func command_init(param):
+	if not gameState.snakeDone:
+		output('ERROR: No network connected.')
+		return
+		
+	if not gameState.spaceDone:
+		output('ERROR: No hull found.')
+		return
+	
+	output('Establish communication     [ OK ]')
+	output('Pull upstream               [ OK ]')
+	output('Start DBUS poller           [ OK ]')
+	output('Prepare memory map          [ OK ]')
+	output('Sensor self check           [ OK ]')
+	output('Engage dummy protocol       [ OK ]\\n')
+	output('Power up')
+	output('`````````````````````````````')
+	
+	yield(self, 'output_done')
+	
+	get_tree().change_scene_to(platformerGame)"
 
 [node name="Node2D" type="Node2D"]
 

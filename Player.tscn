@@ -125,7 +125,9 @@ tracks/1/keys = {
 "values": [ 0.0, -30.0, 0.0 ]
 }
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 position = Vector2( 56.1973, 178.859 )
 collision_mask = 5
 script = SubResource( 1 )
@@ -134,6 +136,7 @@ script = SubResource( 1 )
 position = Vector2( -0.1973, -8.85899 )
 frames = SubResource( 2 )
 animation = "walk"
+frame = 1
 playing = true
 centered = false
 offset = Vector2( -6, 0 )

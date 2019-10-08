@@ -83,12 +83,12 @@ func command_fix(param):
 	
 func command_boot(param):
 	if canBoot:
-		output('Pull upstream               [ OK ]')
-		output('Initialize communication    [ OK ]')
-		output('Prepare memory map          [ OK ]')
-		output('Start DBUS poller           [ OK ]')
+		output('Prepare GANN                [ OK ]')
+		output('Initialize memory map       [ OK ]')
+		output('Locating interface          [ OK ]')
+		output('Diagnostics                 [ OK ]')
 		output('Feed tomogachi              [ OK ]')
-		output('Power up```````````')
+		output('```````````')
 		yield(self, 'output_done')
 		get_tree().change_scene_to(nextScene)
 	else:

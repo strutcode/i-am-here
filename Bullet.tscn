@@ -12,19 +12,10 @@ func _physics_process(delta):
 		print(collision)
 
 func hitBody(body: PhysicsBody2D):
-	print('hit body')
 	if body == null:
 		queue_free()
 	elif body.has_method('bulletHit'):
 		body.call('bulletHit', self)
-		queue_free()
-
-func hitArea(area):
-	print('hit area')
-	if area == null:
-		queue_free()
-	elif area.has_method('bulletHit'):
-		area.call('bulletHit', self)
 		queue_free()
 "
 
