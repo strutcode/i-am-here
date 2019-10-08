@@ -16,6 +16,7 @@ export var drag = 0.7
 
 var airTime = 0
 var shootCooldown = 0
+var canShoot = false
 onready var floorAngle = deg2rad(45)
 onready var gameState = $\"/root/GameState\"
 
@@ -23,6 +24,10 @@ var velocity = Vector2()
 var bullet = preload('res://Bullet.tscn')
 var bulletSound = preload('res://shoot.wav')
 var jumpSound = preload('res://jump.wav')
+
+func enableGun():
+	$AnimatedSprite/gun.visible = true
+	canShoot = true
 
 func _physics_process(delta):
 	var inputLeft = Input.is_action_pressed('ui_left')
@@ -59,7 +64,7 @@ func _physics_process(delta):
 	if (inputLeft and velocity.x > 0) or (inputRight and velocity.x < 0) or (not inputLeft and not inputRight):
 		velocity.x *= 1 - drag
 
-	velocity = move_and_slide(velocity, Vector2(0, -1), true, 4, floorAngle)
+	velocity = move_and_slide(velocity, Vector2(0, -1), false, 4, floorAngle)
 	
 	if abs(velocity.x) < 10:
 		$AnimatedSprite.animation = 'idle'
@@ -69,7 +74,7 @@ func _physics_process(delta):
 		$AnimatedSprite.speed_scale = abs(velocity.x) / 70
 		
 	shootCooldown = max(0, shootCooldown - delta)
-	if inputShoot and shootCooldown == 0:
+	if canShoot and inputShoot and shootCooldown == 0:
 		var shot = bullet.instance()
 		shot.transform = $AnimatedSprite/gun/Muzzle.get_global_transform()
 		shot.speed = 400 * $AnimatedSprite.scale.x
@@ -142,6 +147,7 @@ centered = false
 offset = Vector2( -6, 0 )
 
 [node name="gun" type="Sprite" parent="AnimatedSprite"]
+visible = false
 position = Vector2( 0, 9 )
 texture = ExtResource( 4 )
 centered = false

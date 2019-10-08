@@ -11,6 +11,7 @@ func touchedBody(body):
 	if body.is_in_group('player'):
 		body.get_node('AnimatedSprite').visible = false
 		body.set_process(false)
+		body.set_physics_process(false)
 		
 		var boom = explosion.instance()
 		boom.position = body.position
