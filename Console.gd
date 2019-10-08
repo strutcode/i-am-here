@@ -6,6 +6,7 @@ var outputDelta = 0
 var outputDelay: float = 0.1 / 3
 var outputBuffer = ''
 var allowInput = false
+var boop = preload('res://type.wav')
 
 func _ready() -> void:
 	grab_focus()
@@ -43,12 +44,16 @@ func _process(delta):
 		return
 		
 	outputDelta += delta
+	var gameState = $'/root/GameState'
 	
 	while outputDelta > outputDelay:
 		var next = outputBuffer.substr(0, 1)
 		
 		if next != '`':
 			text += next
+			if gameState.lastBoopTime > 0.03:
+				gameState.playSfx(boop, -25)
+				gameState.lastBoopTime = 0
 			
 		outputBuffer = outputBuffer.substr(1, outputBuffer.length())
 		

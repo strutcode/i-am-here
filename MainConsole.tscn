@@ -9,11 +9,42 @@ anti_aliasing = false
 [sub_resource type="GDScript" id=2]
 script/source = "extends 'res://Console.gd'
 
+onready var gameState = $\"/root/GameState\"
+var spaceGame = preload('res://SpaceGame.tscn')
+var snakeGame = preload('res://SnakeGame.tscn')
+
 func _ready():
+	if gameState.miniGame == 'snake':
+		if gameState.miniGameResult:
+			output('You beat snake, awesome!')
+		else:
+			output('wow much fail, so disappoint')
+			
+	elif gameState.miniGame == 'space':
+		if gameState.miniGameResult:
+			output('You beat space, awesome!')
+		else:
+			output('wow much fail, so disappoint')
+			
 	createPrompt()
 
 func command_default():
-	output('ERROR: Command not found\\nCommands: connect')"
+	output('ERROR: Command not found\\nCommands: connect, trace')
+	
+func command_connect(param):
+	gameState.miniGame = 'snake'
+	get_tree().change_scene_to(snakeGame)
+
+func command_trace(param):
+	output('Initiating trace of protocol```.```.```.\\n')
+	output('WARNING: System defenses activated.')
+	output('         Trace will take some time...')
+	output('````````````````````````````````````````````````````')
+
+	yield(self, 'output_done')
+	
+	gameState.miniGame = 'space'
+	get_tree().change_scene_to(spaceGame)"
 
 [node name="Node2D" type="Node2D"]
 
