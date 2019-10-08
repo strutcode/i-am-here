@@ -17,6 +17,7 @@ export var drag = 0.7
 var airTime = 0
 var shootCooldown = 0
 var canShoot = false
+var dead = false
 onready var floorAngle = deg2rad(45)
 onready var gameState = $\"/root/GameState\"
 
@@ -28,11 +29,24 @@ var jumpSound = preload('res://jump.wav')
 func enableGun():
 	$AnimatedSprite/gun.visible = true
 	canShoot = true
+	
+func kill():
+	$AnimatedSprite.visible = false
+	set_process(false)
+	set_physics_process(false)
+	dead = true
+	
+	yield(get_tree().create_timer(1.0), 'timeout')
+	get_tree().reload_current_scene()
+	
+func _ready():
+	if gameState.checkpoint:
+		position = $'../Checkpoint'.position
 
 func _physics_process(delta):
 	var inputLeft = Input.is_action_pressed('ui_left')
 	var inputRight = Input.is_action_pressed('ui_right')
-	var inputJump = Input.is_action_pressed('ui_up')
+	var inputJump = Input.is_action_just_pressed('ui_up')
 	var inputShoot = Input.is_action_pressed('ui_select')
 	var onFloor = is_on_floor()
 	var move = Vector2(0, gravity)
@@ -141,7 +155,7 @@ script = SubResource( 1 )
 position = Vector2( -0.1973, -8.85899 )
 frames = SubResource( 2 )
 animation = "walk"
-frame = 1
+frame = 2
 playing = true
 centered = false
 offset = Vector2( -6, 0 )

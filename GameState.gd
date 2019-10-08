@@ -7,6 +7,7 @@ var lastBoopTime = 0
 
 var spaceDone = false
 var snakeDone = false
+var checkpoint = false
 
 func goToConsole():
 	get_tree().change_scene_to(consoleScene)

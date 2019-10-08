@@ -8,17 +8,12 @@ func _ready():
 	connect('body_entered', self, 'touchedBody')
 	
 func touchedBody(body):
-	if body.is_in_group('player'):
-		body.get_node('AnimatedSprite').visible = false
-		body.set_process(false)
-		body.set_physics_process(false)
+	if body.is_in_group('player') and not body.dead:
+		body.kill()
 		
 		var boom = explosion.instance()
 		boom.position = body.position
 		get_tree().current_scene.add_child(boom)
 		boom.emitting = true
-		
+
 		gameState.playSfx(killSound, -10)
-		
-		yield(get_tree().create_timer(1.0), 'timeout')
-		get_tree().reload_current_scene()
