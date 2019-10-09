@@ -12,7 +12,7 @@ func onSpawnTimer():
 	get_parent().add_child(newpoint)
 "
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.52549, 0.729412, 0.537255, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -20,8 +20,8 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.8, 0.8, 0.8, 0 )
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.2, 0.337255, 0.207843, 1 )
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
 draw_center = false
 border_width_left = 2
 border_width_top = 2
@@ -80,7 +80,7 @@ func onCollide(area):
 		gameState.goToConsole()
 "
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 15, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
@@ -112,8 +112,8 @@ margin_left = 336.0
 margin_top = 472.0
 margin_right = 912.0
 margin_bottom = 504.0
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
+custom_styles/fg = SubResource( 22 )
+custom_styles/bg = SubResource( 23 )
 max_value = 40.0
 step = 1.0
 percent_visible = false
@@ -139,7 +139,7 @@ margin_bottom = 16.0
 color = Color( 0.52549, 0.729412, 0.537255, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Snake"]
-shape = SubResource( 6 )
+shape = SubResource( 12 )
 
 [node name="Timer" type="Timer" parent="Snake"]
 wait_time = 0.2

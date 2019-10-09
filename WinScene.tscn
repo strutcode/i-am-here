@@ -1,3 +1,34 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://final.png" type="Texture" id=1]
+[ext_resource path="res://PixelFont.tres" type="DynamicFont" id=2]
 
 [node name="WinScene" type="Node2D"]
+
+[node name="final" type="Sprite" parent="."]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 288.0
+margin_bottom = 51.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
+text = "You've escaped,
+well done!
+
+
+Created by:
+       Tristan Shelton
+	
+Made for:
+     Ludum Dare #45
+
+Theme: 
+    Start with nothing
+	
+	
+Thanks for playing!"

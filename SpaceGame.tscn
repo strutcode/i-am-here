@@ -24,7 +24,7 @@ func onTick():
 	newBullet.scale *= 2
 	add_child(newBullet)"
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.52549, 0.729412, 0.537255, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -32,8 +32,8 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.8, 0.8, 0.8, 0 )
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.2, 0.337255, 0.207843, 1 )
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
 draw_center = false
 border_width_left = 2
 border_width_top = 2
@@ -120,8 +120,8 @@ margin_left = 336.0
 margin_top = 492.0
 margin_right = 912.0
 margin_bottom = 516.0
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
+custom_styles/fg = SubResource( 22 )
+custom_styles/bg = SubResource( 23 )
 max_value = 140.0
 step = 1.0
 percent_visible = false
