@@ -35,6 +35,10 @@ func _ready():
 		else:
 			output('Connection terminated, protocol analyzation failed.')
 			
+	else:
+		output('System initialization complete.\\n')
+		output('No network found, unable to connect to adaptive hull.')
+			
 	createPrompt()
 
 func command_default():
@@ -122,4 +126,3 @@ custom_colors/completion_selected_color = Color( 0, 0, 0, 1 )
 context_menu_enabled = false
 wrap_enabled = true
 script = SubResource( 2 )
-[connection signal="text_changed" from="TextEdit" to="." method="inputChanged"]

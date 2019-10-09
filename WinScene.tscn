@@ -18,7 +18,7 @@ margin_bottom = 51.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
 text = "You've escaped,
-well done!
+            well done!
 
 
 Created by:
@@ -32,3 +32,17 @@ Theme:
 	
 	
 Thanks for playing!"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 704.0
+margin_top = 96.0
+margin_right = 1056.0
+margin_bottom = 378.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
+text = "Made in Godot
+Engine
+
+
+Font by Google
+\"PressStart2P\""

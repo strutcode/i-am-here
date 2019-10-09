@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="LD45"
+config/name="I Am Here"
 run/main_scene="res://Init.tscn"
 config/icon="res://icon.png"
 

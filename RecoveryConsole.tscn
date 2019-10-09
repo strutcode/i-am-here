@@ -13,7 +13,7 @@ onready var gameState = $\"/root/GameState\"
 var nextScene = preload('res://MainConsole.tscn')
 
 var memchkN = 0
-var words = ['hello']
+var words = ['self', 'trial', 'remember']
 var scrambled = []
 var canBoot = false
 
@@ -66,7 +66,7 @@ func command_memchk(param):
 func command_fix(param):
 	if param:
 		if param == words[memchkN]:
-			output('SUCCESS: Memory location recovered.\\n')
+			output('SUCCESS\\nMemory location recovered.\\n')
 			memchkN += 1
 			
 			if memchkN == words.size():
@@ -77,7 +77,7 @@ func command_fix(param):
 			output('ERROR: Checksum failed, memory location not recovered.\\n')
 			
 	output('Corrupted memory location found.')
-	output('Enter corrected data for block:')
+	output('Enter corrected data for block:\\n')
 	output('   ' + scrambled[memchkN])
 	output('\\nUsage: fix <word>')
 	
@@ -109,4 +109,3 @@ wrap_enabled = true
 caret_block_mode = true
 caret_blink = true
 script = SubResource( 2 )
-[connection signal="text_changed" from="TextEdit" to="." method="inputChanged"]

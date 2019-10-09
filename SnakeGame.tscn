@@ -3,7 +3,7 @@
 [ext_resource path="res://PixelFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://bgm1.wav" type="AudioStream" id=2]
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 func onSpawnTimer():
@@ -12,7 +12,7 @@ func onSpawnTimer():
 	get_parent().add_child(newpoint)
 "
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.52549, 0.729412, 0.537255, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -20,7 +20,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.8, 0.8, 0.8, 0 )
 
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
 draw_center = false
 border_width_left = 2
@@ -80,20 +80,20 @@ func onCollide(area):
 		gameState.goToConsole()
 "
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 15, 15 )
+
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 15, 15 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 15, 15 )
-
-[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 480, 16 )
 
 [node name="SnakeGame" type="Node2D"]
-script = SubResource( 5 )
+script = SubResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 960.0
@@ -112,8 +112,8 @@ margin_left = 336.0
 margin_top = 472.0
 margin_right = 912.0
 margin_bottom = 504.0
-custom_styles/fg = SubResource( 22 )
-custom_styles/bg = SubResource( 23 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
 max_value = 40.0
 step = 1.0
 percent_visible = false
@@ -127,6 +127,14 @@ custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.52549, 0.729412, 0.537255, 1 )
 text = "Acquiring Network"
 
+[node name="Label2" type="Label" parent="."]
+margin_top = 7.70016
+margin_right = 272.0
+margin_bottom = 23.7002
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.145098, 0.309804, 0.176471, 1 )
+text = " ← → ↑ ↓ "
+
 [node name="Snake" type="Area2D" parent="."]
 position = Vector2( 48, 48 )
 script = SubResource( 4 )
@@ -139,7 +147,7 @@ margin_bottom = 16.0
 color = Color( 0.52549, 0.729412, 0.537255, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Snake"]
-shape = SubResource( 12 )
+shape = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="Snake"]
 wait_time = 0.2
@@ -156,7 +164,7 @@ margin_bottom = 15.0
 color = Color( 0.52549, 0.729412, 0.537255, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SnakeSegment"]
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Timer" type="Timer" parent="SnakeSegment"]
 wait_time = 0.2
@@ -175,7 +183,7 @@ margin_bottom = 8.0
 color = Color( 0.0509804, 0.164706, 0.0745098, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Point"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Timer" type="Timer" parent="Point"]
 wait_time = 0.2
@@ -188,25 +196,25 @@ autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 480, 16 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 480, 464 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 16, 240 )
 rotation = 1.5708
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 944, 256 )
 rotation = 1.5708
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
-volume_db = -25.0
+volume_db = -15.0
 autoplay = true
 [connection signal="area_entered" from="Snake" to="Snake" method="onCollide"]
 [connection signal="timeout" from="Snake/Timer" to="Snake" method="onTick"]
